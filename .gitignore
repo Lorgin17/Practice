@@ -1,0 +1,14 @@
+Win32/
+Win64/
+Win64x/
+__history/
+*.exe
+*.obj
+*.pch
+*.tds
+*.ilc
+*.ild
+*.ilf
+*.ils
+*.map
+*.local 
