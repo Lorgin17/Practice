@@ -92,8 +92,9 @@ object Form1: TForm1
       Height = 25
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
+      OnClick = ButtonAddClick
     end
-    object Button2: TButton
+    object ButtonDelete: TButton
       Left = 8
       Top = 101
       Width = 169
@@ -114,9 +115,10 @@ object Form1: TForm1
       Width = 170
       Height = 281
       Columns = <>
+      ReadOnly = True
       TabOrder = 0
     end
-    object Button1: TButton
+    object ButtonCalculate: TButton
       Left = 7
       Top = 295
       Width = 75
@@ -124,7 +126,7 @@ object Form1: TForm1
       Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
       TabOrder = 1
     end
-    object Button3: TButton
+    object ButtonClear: TButton
       Left = 102
       Top = 295
       Width = 75
@@ -139,14 +141,13 @@ object Form1: TForm1
     Width = 626
     Height = 19
     Panels = <>
-    ExplicitTop = 422
-    ExplicitWidth = 624
   end
   object StringGrid1: TStringGrid
     Left = 216
     Top = 356
     Width = 402
     Height = 169
+    FixedCols = 0
     TabOrder = 3
   end
 end

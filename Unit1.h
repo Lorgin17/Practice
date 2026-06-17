@@ -2,7 +2,15 @@
 
 #ifndef Unit1H
 #define Unit1H
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
+#include <vector>
+#include <cmath>
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
 #include <Vcl.StdCtrls.hpp>
@@ -22,17 +30,30 @@ __published:	// IDE-managed Components
 	TEdit *EditX;
 	TEdit *EditY;
 	TButton *ButtonAdd;
-	TButton *Button2;
+	TButton *ButtonDelete;
 	TLabel *TitleListCity;
 	TPanel *Panel2;
 	TListView *ListView1;
 	TStatusBar *StatusBar1;
-	TButton *Button1;
-	TButton *Button3;
+	TButton *ButtonCalculate;
+	TButton *ButtonClear;
 	TLabel *Label3;
 	TLabel *Label4;
 	TStringGrid *StringGrid1;
+	void __fastcall ButtonAddClick(TObject *Sender);
 private:	// User declarations
+    struct City {
+        double x, y;
+        int index;
+    };
+    struct Route {
+        int cityA, cityB;   // индексы городов
+        double length;
+    };
+
+    std::vector<City> cities;
+    std::vector<Route> validRoutes;  // заполняет Разработчик 2
+    int selectedRoute = -1;          // выбранный маршрут для отрисовки
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
 };
