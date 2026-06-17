@@ -9,7 +9,6 @@
 #include <Vcl.Forms.hpp>
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ComCtrls.hpp>
-#include <Vcl.Grids.hpp>
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
@@ -29,9 +28,6 @@ __published:	// IDE-managed Components
 	TStatusBar *StatusBar1;
 	TButton *Button1;
 	TButton *Button3;
-	TLabel *Label3;
-	TLabel *Label4;
-	TStringGrid *StringGrid1;
 private:	// User declarations
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
