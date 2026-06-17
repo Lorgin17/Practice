@@ -2,7 +2,7 @@ object Form1: TForm1
   Left = 0
   Top = 0
   Caption = 'Search of ways'
-  ClientHeight = 475
+  ClientHeight = 441
   ClientWidth = 624
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
@@ -12,7 +12,7 @@ object Form1: TForm1
   Font.Style = []
   DesignSize = (
     624
-    475)
+    441)
   TextHeight = 15
   object PaintBox1: TPaintBox
     Left = 216
@@ -92,39 +92,25 @@ object Form1: TForm1
     Left = 8
     Top = 196
     Width = 185
-    Height = 245
+    Height = 220
     TabOrder = 1
     object ListView1: TListView
       Left = 7
       Top = 8
       Width = 170
-      Height = 201
+      Height = 185
       Columns = <>
       TabOrder = 0
-    end
-    object Button1: TButton
-      Left = 8
-      Top = 215
-      Width = 75
-      Height = 25
-      Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
-      TabOrder = 1
-    end
-    object Button3: TButton
-      Left = 102
-      Top = 215
-      Width = 75
-      Height = 25
-      Caption = #1054#1095#1080#1089#1090#1080#1090#1100
-      TabOrder = 2
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
-    Top = 456
+    Top = 422
     Width = 624
     Height = 19
     Panels = <>
-    ExplicitTop = 422
+    ExplicitLeft = 472
+    ExplicitTop = 384
+    ExplicitWidth = 0
   end
 end
