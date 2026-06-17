@@ -130,6 +130,7 @@ object Form1: TForm1
         end>
       ColumnClick = False
       ReadOnly = True
+      RowSelect = True
       TabOrder = 0
       ViewStyle = vsReport
     end
