@@ -119,15 +119,21 @@ object Form1: TForm1
       Columns = <
         item
           Caption = 'G'
+          MaxWidth = 50
+          MinWidth = 50
         end
         item
           Alignment = taCenter
           Caption = 'X'
+          MaxWidth = 60
+          MinWidth = 60
           Width = 60
         end
         item
           Alignment = taCenter
           Caption = 'Y'
+          MaxWidth = 60
+          MinWidth = 60
           Width = 60
         end>
       ColumnClick = False
