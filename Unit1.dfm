@@ -52,7 +52,7 @@ object Form1: TForm1
     AlignWithMargins = True
     Left = 8
     Top = 29
-    Width = 185
+    Width = 195
     Height = 140
     Anchors = []
     ParentBackground = False
@@ -88,7 +88,7 @@ object Form1: TForm1
     object ButtonAdd: TButton
       Left = 8
       Top = 70
-      Width = 169
+      Width = 179
       Height = 25
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
@@ -97,23 +97,25 @@ object Form1: TForm1
     object ButtonDelete: TButton
       Left = 8
       Top = 101
-      Width = 169
+      Width = 179
       Height = 25
       Caption = #1059#1076#1072#1083#1080#1090#1100
       TabOrder = 3
+      OnClick = ButtonDeleteClick
     end
   end
   object Panel2: TPanel
     Left = 8
     Top = 196
-    Width = 185
+    Width = 195
     Height = 329
     TabOrder = 1
     object ListView1: TListView
       Left = 7
       Top = 8
-      Width = 170
+      Width = 180
       Height = 281
+      Checkboxes = True
       Columns = <
         item
           Caption = 'G'

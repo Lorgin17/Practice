@@ -14,6 +14,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 {
 }
 //---------------------------------------------------------------------------
+// Функция добавления города в список ListView (работает)
 void __fastcall TForm1::ButtonAddClick(TObject *Sender)
 {
 	// Валидация ввода
@@ -43,6 +44,21 @@ void __fastcall TForm1::ButtonAddClick(TObject *Sender)
     StatusBar1->SimpleText = "Городов: " + IntToStr(int(cities.size()));
 
 	PaintBox1->Invalidate(); // перерисовать карту
+}
+//---------------------------------------------------------------------------
+// Функция удаления города из списка (работает)
+void __fastcall TForm1::ButtonDeleteClick(TObject *Sender)
+{
+	if (ListView1->Selected == nullptr) return;     // Если не выбрана строка
+	int idx = ListView1->Selected->Index;           // Индекс выбранной строки
+	cities.erase(cities.begin() + idx);             // Удаление из vector
+	ListView1->Items->Delete(idx);                  // Удаление из ListView
+	// Перенумеровать
+    for (int i = 0; i < (int)cities.size(); i++)
+        cities[i].index = i;
+    validRoutes.clear();
+    PaintBox1->Invalidate();
+	StatusBar1->SimpleText = "Городов: " + IntToStr(int(cities.size()));
 }
 //---------------------------------------------------------------------------
 

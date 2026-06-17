@@ -41,18 +41,19 @@ __published:	// IDE-managed Components
 	TLabel *Label4;
 	TStringGrid *StringGrid1;
 	void __fastcall ButtonAddClick(TObject *Sender);
+	void __fastcall ButtonDeleteClick(TObject *Sender);
 private:	// User declarations
-    struct City {
-        double x, y;
-        int index;
-    };
-    struct Route {
-        int cityA, cityB;   // индексы городов
-        double length;
-    };
+	struct City {
+		double x, y;
+		int index;
+	};
+	struct Route {
+		int cityA, cityB;   // индексы городов
+		double length;      // длина дороги
+	};
 
-    std::vector<City> cities;
-    std::vector<Route> validRoutes;  // заполн€ет –азработчик 2
+	std::vector<City> cities;
+	std::vector<Route> validRoutes;
     int selectedRoute = -1;          // выбранный маршрут дл€ отрисовки
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
