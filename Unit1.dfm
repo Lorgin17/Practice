@@ -52,7 +52,7 @@ object Form1: TForm1
     AlignWithMargins = True
     Left = 8
     Top = 29
-    Width = 195
+    Width = 185
     Height = 140
     Anchors = []
     ParentBackground = False
@@ -88,35 +88,33 @@ object Form1: TForm1
     object ButtonAdd: TButton
       Left = 8
       Top = 70
-      Width = 179
+      Width = 169
       Height = 25
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
-      OnClick = ButtonAddClick
     end
-    object ButtonDelete: TButton
+    object Button2: TButton
       Left = 8
       Top = 101
-      Width = 179
+      Width = 169
       Height = 25
       Caption = #1059#1076#1072#1083#1080#1090#1100
       TabOrder = 3
-      OnClick = ButtonDeleteClick
     end
   end
   object Panel2: TPanel
     Left = 8
     Top = 196
-    Width = 195
+    Width = 185
     Height = 329
     TabOrder = 1
-    object ListView1: TListView
+object ListView1: TListView
       Left = 7
       Top = 8
-      Width = 180
+      Width = 170
       Height = 281
       Checkboxes = True
-      Columns = <
+      Columns = 
         item
           Caption = 'G'
           MaxWidth = 50
@@ -140,17 +138,17 @@ object Form1: TForm1
       ReadOnly = True
       RowSelect = True
       TabOrder = 0
-      ViewStyle = vsReport
     end
-    object ButtonCalculate: TButton
-      Left = 7
+    object Button1: TButton
+      Left = 8
       Top = 295
       Width = 75
       Height = 25
       Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
       TabOrder = 1
+      OnClick = Button1Click
     end
-    object ButtonClear: TButton
+    object Button3: TButton
       Left = 102
       Top = 295
       Width = 75
@@ -171,7 +169,6 @@ object Form1: TForm1
     Top = 356
     Width = 402
     Height = 169
-    FixedCols = 0
     TabOrder = 3
   end
 end
