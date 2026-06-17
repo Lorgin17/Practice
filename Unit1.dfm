@@ -117,12 +117,13 @@ object Form1: TForm1
       TabOrder = 0
     end
     object Button1: TButton
-      Left = 7
+      Left = 8
       Top = 295
       Width = 75
       Height = 25
       Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
       TabOrder = 1
+      OnClick = Button1Click
     end
     object Button3: TButton
       Left = 102
@@ -139,8 +140,6 @@ object Form1: TForm1
     Width = 626
     Height = 19
     Panels = <>
-    ExplicitTop = 422
-    ExplicitWidth = 624
   end
   object StringGrid1: TStringGrid
     Left = 216
