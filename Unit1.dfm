@@ -108,13 +108,13 @@ object Form1: TForm1
     Width = 185
     Height = 329
     TabOrder = 1
-object ListView1: TListView
+    object ListView1: TListView
       Left = 7
       Top = 8
       Width = 170
       Height = 281
       Checkboxes = True
-      Columns = 
+      Columns = <
         item
           Caption = 'G'
           MaxWidth = 50
