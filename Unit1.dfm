@@ -114,9 +114,24 @@ object Form1: TForm1
       Top = 8
       Width = 170
       Height = 281
-      Columns = <>
+      Columns = <
+        item
+          Caption = 'G'
+        end
+        item
+          Alignment = taCenter
+          Caption = 'X'
+          Width = 60
+        end
+        item
+          Alignment = taCenter
+          Caption = 'Y'
+          Width = 60
+        end>
+      ColumnClick = False
       ReadOnly = True
       TabOrder = 0
+      ViewStyle = vsReport
     end
     object ButtonCalculate: TButton
       Left = 7

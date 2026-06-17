@@ -17,10 +17,10 @@ __fastcall TForm1::TForm1(TComponent* Owner)
 void __fastcall TForm1::ButtonAddClick(TObject *Sender)
 {
 	// Валидация ввода
-    double x, y;
+	float x, y;
     try {
         x = StrToFloat(EditX->Text);
-        y = StrToFloat(EditY->Text);
+		y = StrToFloat(EditY->Text);
     } catch (...) {
         StatusBar1->SimpleText = "Ошибка: введите числа!";
         return;
@@ -32,10 +32,11 @@ void __fastcall TForm1::ButtonAddClick(TObject *Sender)
     c.index = cities.size();
     cities.push_back(c);
 
-    // Добавить в ListView
+	// Добавить в ListView
     TListItem *item = ListView1->Items->Add();
-    item->Caption = IntToStr(c.index + 1) + ": ("
-                    + FloatToStr(x) + ", " + FloatToStr(y) + ")";
+	item->Caption = "G" + IntToStr((int)cities.size());
+	item->SubItems->Add("X: " + FloatToStr(x));
+	item->SubItems->Add("Y: " + FloatToStr(y));
 
     EditX->Text = "";
     EditY->Text = "";
