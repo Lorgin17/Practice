@@ -2,6 +2,24 @@
 
 #ifndef Unit1H
 #define Unit1H
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -20,9 +38,8 @@
 // Структура города
 struct City {
 	int index;   // индекс в массиве
-	double x;    // координата X
-	double y;    // координата Y
-	int index;
+	float x;    // координата X
+	float y;    // координата Y
     String name; // название, например "G1"
 };
 
@@ -36,10 +53,6 @@ struct Route {
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
-
-
-	void __fastcall ButtonAddClick(TObject *Sender);
-	void __fastcall ButtonDeleteClick(TObject *Sender);
 
 
 	TPanel *Panel1;
@@ -63,11 +76,18 @@ __published:	// IDE-managed Components
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall ButtonAddClick(TObject *Sender);
 	void __fastcall ButtonDeleteClick(TObject *Sender);
+	void __fastcall EditXKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall EditYKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
+
 private:	// User declarations
 	void FindAndShowRoutes();
-    void ShowRoutesInGrid(const std::vector<Route> &routes);
+	void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
+
+	std::vector<City> GetCheckedCities();
 	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов
     std::vector<Route> routes;  // список найденных маршрутов
