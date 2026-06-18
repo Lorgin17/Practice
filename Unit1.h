@@ -2,6 +2,24 @@
 
 #ifndef Unit1H
 #define Unit1H
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
+#include <System.Classes.hpp>
+#include <Vcl.ComCtrls.hpp>
+#include <Vcl.Controls.hpp>
+#include <Vcl.ExtCtrls.hpp>
+#include <Vcl.Grids.hpp>
+#include <Vcl.StdCtrls.hpp>
 //---------------------------------------------------------------------------
 #include <System.Classes.hpp>
 #include <Vcl.Controls.hpp>
@@ -20,8 +38,8 @@
 // Структура города
 struct City {
 	int index;   // индекс в массиве
-	double x;    // координата X
-	double y;    // координата Y
+	float x;    // координата X
+	float y;    // координата Y
     String name; // название, например "G1"
 };
 
@@ -29,12 +47,14 @@ struct City {
 struct Route {
     int i;          // индекс первого города в массиве cities
     int j;          // индекс второго города в массиве cities
-	double length;  // длина маршрута
+	float length;  // длина маршрута
 };
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
+
+
 	TPanel *Panel1;
 	TPaintBox *PaintBox1;
 	TLabel *TitleAddCity;
@@ -63,10 +83,12 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	void FindAndShowRoutes();
-    void ShowRoutesInGrid(const std::vector<Route> &routes);
+	void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
 
+	std::vector<City> GetCheckedCities();
+	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов
     std::vector<Route> routes;  // список найденных маршрутов
 

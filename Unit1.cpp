@@ -86,7 +86,7 @@ void SortRoutes(std::vector<Route> &routes)
 
 
 //Функция 6. Вывод маршрутов
-void TForm1::ShowRoutesInGrid(const std::vector<Route> &routes)
+void TForm1::ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes)
 {
     // +1 потому что строка 0 — это заголовок
     StringGrid1->RowCount = (int)routes.size() + 1;
@@ -96,11 +96,8 @@ void TForm1::ShowRoutesInGrid(const std::vector<Route> &routes)
 
         // Колонка 0 — номер маршрута
 		StringGrid1->Cells[0][r + 1] = IntToStr(r + 1);
-
         // Колонка 1 — названия двух городов
-        StringGrid1->Cells[1][r + 1] =
-            cities[rt.i].name + " — " + cities[rt.j].name;
-
+		StringGrid1->Cells[1][r + 1] = checkedCities[rt.i].name + " — " + checkedCities[rt.j].name;
         // Колонка 2 — длина, 2 знака после запятой
 		StringGrid1->Cells[2][r + 1] = FloatToStrF(rt.length, ffFixed, 6, 2);
     }
@@ -118,29 +115,63 @@ void TForm1::UpdateStatus(const std::vector<Route> &routes)
 }
 
 
+//Функция 8. Проверить видимость
+ std::vector<City> TForm1::GetCheckedCities()
+{
+    std::vector<City> checked;
+    for (int i = 0; i < ListView1->Items->Count; i++) {
+        if (ListView1->Items->Item[i]->Checked) {
+            checked.push_back(cities[i]);
+        }
+    }
+    return checked;
+}
+
+
+
 //Функция. Итоговая FindAndShowRoutes — просто склейка
 void TForm1::FindAndShowRoutes()
 {
-    int n = (int)cities.size();
+    std::vector<City> checkedCities = GetCheckedCities();
+    int n = (int)checkedCities.size();
 
     if (n < 2) {
-        ShowMessage("Нужно минимум 2 города");
+        ShowMessage("Нужно минимум 2 отмеченных города");
         return;
     }
     if (n % 2 != 0) {
-        ShowMessage("Количество городов должно быть чётным");
+        ShowMessage("Количество отмеченных городов должно быть чётным");
         return;
     }
 
-	routes = CollectRoutes(cities);   // 4
-	SortRoutes(routes);               // 5
-	ShowRoutesInGrid(routes);         // 6
-	UpdateStatus(routes);             // 7
+    routes = CollectRoutes(checkedCities);
+    SortRoutes(routes);
+    ShowRoutesInGrid(checkedCities, routes);
+    UpdateStatus(routes);
 }
 //---------------------------------------------------------------------------
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
+	// Настройка StringGrid
+    StringGrid1->ColCount = 3;
+    StringGrid1->RowCount = 2;
+    StringGrid1->FixedRows = 1;
+	StringGrid1->FixedCols = 0;
+    StringGrid1->Cells[0][0] = "№";
+    StringGrid1->Cells[1][0] = "Маршрут";
+    StringGrid1->Cells[2][0] = "Длина";
+    StringGrid1->ColWidths[0] = 30;
+    StringGrid1->ColWidths[1] = 250;
+    StringGrid1->ColWidths[2] = 80;
+
+    // Настройка PaintBox — белый фон
+    PaintBox1->Canvas->Brush->Color = clWhite;
+    PaintBox1->Canvas->FillRect(
+	Rect(0, 0, PaintBox1->Width, PaintBox1->Height));
+
+	//Настройка ListView1
+    StatusBar1->SimplePanel = True;
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)
