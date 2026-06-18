@@ -221,46 +221,8 @@ void __fastcall TForm1::ButtonDeleteClick(TObject *Sender)
 
     // Очистка путей и PaintBox
     routes.clear();
-	PaintBox1->Invalidate();
+    PaintBox1->Invalidate();
 	StatusBar1->SimpleText = "Городов: " + IntToStr((int)cities.size());
 }
 //---------------------------------------------------------------------------
-// Нажатие на Enter/стрелки при вводе в EditX
-void __fastcall TForm1::EditXKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
-{
-    if (Key == VK_RETURN || Key == VK_DOWN) {
-        EditY->SetFocus();
-        Key = 0; // подавить стандартное поведение
-	}
-	if (Key == VK_UP) {
-        ButtonDelete->SetFocus();
-	}
-}
-//---------------------------------------------------------------------------
-// Нажатие на Enter/стрелки при вводе в EditY
-void __fastcall TForm1::EditYKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
-{
-    if (Key == VK_RETURN || Key == VK_DOWN) {
-        ButtonAdd->SetFocus();
-        Key = 0;
-    }
-    if (Key == VK_UP) {
-        EditX->SetFocus();
-        Key = 0;
-    }
-}
-//---------------------------------------------------------------------------
-// Нажатие на Enter/стрелки на кнопке "Добавить"
-void __fastcall TForm1::ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
-{
-	if (Key == VK_UP) {
-		EditY->SetFocus();
-		Key = 0;
-	}
-	if (Key == VK_DOWN) {
-		ButtonDelete->SetFocus();
-		Key = 0;
-	}
-}
-
 
