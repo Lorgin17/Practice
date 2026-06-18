@@ -186,6 +186,7 @@ void __fastcall TForm1::ButtonAddClick(TObject *Sender)
     StatusBar1->SimpleText = "Городов: " + IntToStr(int(cities.size()));
 
 	PaintBox1->Invalidate(); // перерисовать карту
+    EditX->SetFocus();
 }
 //---------------------------------------------------------------------------
 // Функция удаления города из списка (работает)
