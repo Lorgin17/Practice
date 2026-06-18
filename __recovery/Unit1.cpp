@@ -1,0 +1,282 @@
+//---------------------------------------------------------------------------
+#include <cmath>
+#include <vector>
+#include <vcl.h>
+#pragma hdrstop
+
+#include "Unit1.h"
+//---------------------------------------------------------------------------
+#pragma package(smart_init)
+#pragma resource "*.dfm"
+TForm1 *Form1;
+
+
+
+
+//Функция 1. Векторное произведение, знак определяет сьторону города относительно прямой
+// > 0 — точка P слева от прямой A->B
+// < 0 — справа
+// = 0 — на прямой
+float Side(const City &A, const City &B, const City &P){
+return (B.x - A.x) * (P.y -A.y) - (B.y - A.y) * (P.x - A.x);
+}
+//Функция 2. расстояние между двумя городами
+float Distance(const City &A, const City &B)
+{
+	float dx = B.x - A.x;
+	float dy = B.y - A.y;
+    return sqrt(dx*dx + dy*dy);
+}
+
+
+//Функция 3. Возвращает true, если прямая через города A и B
+// делит остальные города ровно пополам
+// (коллинеарные не считаются)
+bool ValidCity(const std::vector<City> &cities, int A, int B)
+{
+	int need = ((int)cities.size() - 2) / 2;
+	int left = 0, right = 0;
+	for (int k = 0; k < (int)cities.size(); k++) {
+		if (k == A || k == B) continue;
+		float c = Side(cities[A], cities[B], cities[k]); //1
+		if      (c > 0) left++;
+		else if (c < 0) right++;
+		// c == 0 — на прямой, не считаем
+	}
+    return (left == need && right == need);
+}
+
+
+//Функция 4. Перебирает все пары городов и возвращает только подходящие
+std::vector<Route> CollectRoutes(const std::vector<City> &cities)
+{
+    std::vector<Route> result;
+    int n = (int)cities.size();
+
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = i + 1; j < n; j++) {
+			if (ValidCity(cities, i, j)) {        //3
+				Route r;
+                r.i = i;
+				r.j = j;
+				r.length = Distance(cities[i], cities[j]); //2
+				result.push_back(r);
+			}
+		}
+	}
+
+    return result;
+}
+
+// Функция 5. Сортировка маршрутов по длине
+void SortRoutes(std::vector<Route> &routes)
+{
+	int n = (int)routes.size();
+    for (int i = 0; i < n - 1; i++) {
+        for (int j = 0; j < n - i - 1; j++) {
+            if (routes[j].length > routes[j + 1].length) {
+                // меняем местами
+                Route temp   = routes[j];
+                routes[j]     = routes[j + 1];
+                routes[j + 1] = temp;
+            }
+        }
+    }
+}
+
+
+//Функция 6. Вывод маршрутов
+void TForm1::ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes)
+{
+    // +1 потому что строка 0 — это заголовок
+    StringGrid1->RowCount = (int)routes.size() + 1;
+
+    for (int r = 0; r < (int)routes.size(); r++) {
+        const Route &rt = routes[r];
+
+        // Колонка 0 — номер маршрута
+		StringGrid1->Cells[0][r + 1] = IntToStr(r + 1);
+        // Колонка 1 — названия двух городов
+		StringGrid1->Cells[1][r + 1] = checkedCities[rt.i].name + " — " + checkedCities[rt.j].name;
+        // Колонка 2 — длина, 2 знака после запятой
+		StringGrid1->Cells[2][r + 1] = FloatToStrF(rt.length, ffFixed, 6, 2);
+    }
+}
+
+
+//Функция 7. Обновить статусбар
+void TForm1::UpdateStatus(const std::vector<Route> &routes)
+{
+    if (routes.empty())
+        StatusBar1->SimpleText = "Подходящих маршрутов не найдено";
+    else
+        StatusBar1->SimpleText =
+            "Найдено маршрутов: " + IntToStr((int)routes.size());
+}
+
+
+//Функция 8. Проверить видимость
+ std::vector<City> TForm1::GetCheckedCities()
+{
+    std::vector<City> checked;
+    for (int i = 0; i < ListView1->Items->Count; i++) {
+        if (ListView1->Items->Item[i]->Checked) {
+            checked.push_back(cities[i]);
+        }
+    }
+    return checked;
+}
+
+
+
+//Функция. Итоговая FindAndShowRoutes — просто склейка
+void TForm1::FindAndShowRoutes()
+{
+    std::vector<City> checkedCities = GetCheckedCities();
+    int n = (int)checkedCities.size();
+
+    if (n < 2) {
+        ShowMessage("Нужно минимум 2 отмеченных города");
+        return;
+    }
+    if (n % 2 != 0) {
+        ShowMessage("Количество отмеченных городов должно быть чётным");
+        return;
+    }
+
+    routes = CollectRoutes(checkedCities);
+    SortRoutes(routes);
+    ShowRoutesInGrid(checkedCities, routes);
+    UpdateStatus(routes);
+}
+//---------------------------------------------------------------------------
+__fastcall TForm1::TForm1(TComponent* Owner)
+	: TForm(Owner)
+{
+	// Настройка StringGrid
+    StringGrid1->ColCount = 3;
+    StringGrid1->RowCount = 2;
+    StringGrid1->FixedRows = 1;
+	StringGrid1->FixedCols = 0;
+    StringGrid1->Cells[0][0] = "№";
+    StringGrid1->Cells[1][0] = "Маршрут";
+	StringGrid1->Cells[2][0] = "Длина";
+	StringGrid1->Width = 490;
+	StringGrid1->ColWidths[0] = 30;
+	StringGrid1->ColWidths[1] = 250;
+	StringGrid1->ColWidths[2] = 200;
+
+    // Настройка PaintBox — белый фон
+    PaintBox1->Canvas->Brush->Color = clWhite;
+    PaintBox1->Canvas->FillRect(
+	Rect(0, 0, PaintBox1->Width, PaintBox1->Height));
+
+	//Настройка ListView1
+    StatusBar1->SimplePanel = True;
+}
+//---------------------------------------------------------------------------
+void __fastcall TForm1::Button1Click(TObject *Sender)
+{
+	FindAndShowRoutes();
+}
+// Функция добавления города в список ListView (работает)
+void __fastcall TForm1::ButtonAddClick(TObject *Sender)
+{
+	// Валидация ввода
+	float x, y;
+    try {
+        x = StrToFloat(EditX->Text);
+		y = StrToFloat(EditY->Text);
+    } catch (...) {
+        StatusBar1->SimpleText = "Ошибка: введите числа!";
+        return;
+    }
+
+    City c;     // Структура для города
+    c.x = x;
+	c.y = y;
+	c.index = (int)cities.size();
+	c.name = "G" + IntToStr((int)cities.size() + 1);
+    // Проверка на дублирование координат
+	for (int i = 0; i < (int)cities.size(); i++) {
+		if (cities[i].x == x && cities[i].y == y) {
+			StatusBar1->SimpleText = "Ошибка: город с такими координатами уже существует!";
+			return;
+		}
+	}
+
+	cities.push_back(c);
+
+	TListItem *item = ListView1->Items->Add();
+	item->Caption = "G" + IntToStr((int)cities.size());
+	item->Checked = true;
+	item->SubItems->Add("X: " + FloatToStr(x));
+	item->SubItems->Add("Y: " + FloatToStr(y));
+
+    EditX->Text = "";
+    EditY->Text = "";
+    StatusBar1->SimpleText = "Городов: " + IntToStr(int(cities.size()));
+
+	PaintBox1->Invalidate(); // перерисовать карту
+}
+//---------------------------------------------------------------------------
+// Функция удаления города из списка (работает)
+void __fastcall TForm1::ButtonDeleteClick(TObject *Sender)
+{
+	if (ListView1->Selected == nullptr) return;    // Если не выбрана строка
+	int idx = ListView1->Selected->Index;          // Индекс выбранной строки
+	cities.erase(cities.begin() + idx);            // Удаление из vector
+	ListView1->Items->Delete(idx);                 // Удаление из ListView
+
+	// Перенумерация элементов
+	for (int i = 0; i < (int)cities.size(); i++) {
+        cities[i].index = i;
+        cities[i].name = "G" + IntToStr(i + 1);
+        ListView1->Items->Item[i]->Caption = "G" + IntToStr(i + 1);
+    }
+
+    // Очистка путей и PaintBox
+    routes.clear();
+	PaintBox1->Invalidate();
+	StatusBar1->SimpleText = "Городов: " + IntToStr((int)cities.size());
+}
+//---------------------------------------------------------------------------
+// Нажатие на Enter/стрелки при вводе в EditX
+void __fastcall TForm1::EditXKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+    if (Key == VK_RETURN || Key == VK_DOWN) {
+        EditY->SetFocus();
+        Key = 0; // подавить стандартное поведение
+	}
+	if (Key == VK_UP) {
+        ButtonDelete->SetFocus();
+	}
+}
+//---------------------------------------------------------------------------
+// Нажатие на Enter/стрелки при вводе в EditY
+void __fastcall TForm1::EditYKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+    if (Key == VK_RETURN || Key == VK_DOWN) {
+        ButtonAdd->SetFocus();
+        Key = 0;
+    }
+    if (Key == VK_UP) {
+        EditX->SetFocus();
+        Key = 0;
+    }
+}
+//---------------------------------------------------------------------------
+// Нажатие на Enter/стрелки на кнопке "Добавить"
+void __fastcall TForm1::ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+	if (Key == VK_UP) {
+		EditY->SetFocus();
+		Key = 0;
+	}
+	if (Key == VK_DOWN) {
+		ButtonDelete->SetFocus();
+		Key = 0;
+	}
+}
+
+
