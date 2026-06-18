@@ -63,9 +63,10 @@ __published:	// IDE-managed Components
 
 private:	// User declarations
 	void FindAndShowRoutes();
-    void ShowRoutesInGrid(const std::vector<Route> &routes);
+    void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
+	std::vector<City> GetCheckedCities();
 	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов
     std::vector<Route> routes;  // список найденных маршрутов
