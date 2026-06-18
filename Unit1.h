@@ -63,6 +63,11 @@ __published:	// IDE-managed Components
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall ButtonAddClick(TObject *Sender);
 	void __fastcall ButtonDeleteClick(TObject *Sender);
+	void __fastcall EditXKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall EditYKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+	void __fastcall ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
+
+
 private:	// User declarations
 	void FindAndShowRoutes();
     void ShowRoutesInGrid(const std::vector<Route> &routes);

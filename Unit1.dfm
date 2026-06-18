@@ -77,6 +77,7 @@ object Form1: TForm1
       Width = 81
       Height = 23
       TabOrder = 0
+      OnKeyDown = EditXKeyDown
     end
     object EditY: TEdit
       Left = 24
@@ -84,6 +85,7 @@ object Form1: TForm1
       Width = 81
       Height = 23
       TabOrder = 1
+      OnKeyDown = EditYKeyDown
     end
     object ButtonAdd: TButton
       Left = 8
@@ -93,6 +95,7 @@ object Form1: TForm1
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
       OnClick = ButtonAddClick
+      OnKeyDown = ButtonAddKeyDown
     end
     object ButtonDelete: TButton
       Left = 8
