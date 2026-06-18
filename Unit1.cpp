@@ -181,6 +181,14 @@ void __fastcall TForm1::ButtonAddClick(TObject *Sender)
 	c.y = y;
 	c.index = (int)cities.size();
 	c.name = "G" + IntToStr((int)cities.size() + 1);
+    // Проверка на дублирование координат
+	for (int i = 0; i < (int)cities.size(); i++) {
+		if (cities[i].x == x && cities[i].y == y) {
+			StatusBar1->SimpleText = "Ошибка: город с такими координатами уже существует!";
+			return;
+		}
+	}
+
 	cities.push_back(c);
 
 	TListItem *item = ListView1->Items->Add();

@@ -166,6 +166,7 @@ object Form1: TForm1
     Width = 626
     Height = 19
     Panels = <>
+    SimplePanel = True
   end
   object StringGrid1: TStringGrid
     Left = 216
