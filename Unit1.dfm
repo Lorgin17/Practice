@@ -93,7 +93,7 @@ object Form1: TForm1
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
     end
-    object Button2: TButton
+    object ButtonDelete: TButton
       Left = 8
       Top = 101
       Width = 169

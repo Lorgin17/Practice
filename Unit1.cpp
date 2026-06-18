@@ -141,6 +141,22 @@ void TForm1::FindAndShowRoutes()
 __fastcall TForm1::TForm1(TComponent* Owner)
 	: TForm(Owner)
 {
+	// Настройка StringGrid
+    StringGrid1->ColCount = 3;
+    StringGrid1->RowCount = 2;
+    StringGrid1->FixedRows = 1;
+	StringGrid1->FixedCols = 0;
+    StringGrid1->Cells[0][0] = "№";
+    StringGrid1->Cells[1][0] = "Маршрут";
+    StringGrid1->Cells[2][0] = "Длина";
+    StringGrid1->ColWidths[0] = 30;
+    StringGrid1->ColWidths[1] = 250;
+    StringGrid1->ColWidths[2] = 80;
+
+    // Настройка PaintBox — белый фон
+    PaintBox1->Canvas->Brush->Color = clWhite;
+    PaintBox1->Canvas->FillRect(
+		Rect(0, 0, PaintBox1->Width, PaintBox1->Height));
 }
 //---------------------------------------------------------------------------
 void __fastcall TForm1::Button1Click(TObject *Sender)

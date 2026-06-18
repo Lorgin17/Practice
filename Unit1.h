@@ -21,6 +21,7 @@
 struct City {
 	double x;    // координата X
 	double y;    // координата Y
+	int index;
     String name; // название, например "G1"
 };
 
@@ -28,12 +29,18 @@ struct City {
 struct Route {
     int i;          // индекс первого города в массиве cities
     int j;          // индекс второго города в массиве cities
-	double length;  // длина маршрута
+	float length;  // длина маршрута
 };
 //---------------------------------------------------------------------------
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
+
+
+	void __fastcall ButtonAddClick(TObject *Sender);
+	void __fastcall ButtonDeleteClick(TObject *Sender);
+
+
 	TPanel *Panel1;
 	TPaintBox *PaintBox1;
 	TLabel *TitleAddCity;
@@ -58,7 +65,7 @@ private:	// User declarations
     void ShowRoutesInGrid(const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
-
+	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов
     std::vector<Route> routes;  // список найденных маршрутов
 
