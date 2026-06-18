@@ -163,7 +163,8 @@ void __fastcall TForm1::ButtonAddClick(TObject *Sender)
     City c;     // Структура для города
     c.x = x;
 	c.y = y;
-	c.index = cities.size();
+	c.index = (int)cities.size();
+	c.name = "G" + IntToStr((int)cities.size() + 1);
 	cities.push_back(c);
 
 	TListItem *item = ListView1->Items->Add();
@@ -190,11 +191,12 @@ void __fastcall TForm1::ButtonDeleteClick(TObject *Sender)
 	// Перенумерация элементов
 	for (int i = 0; i < (int)cities.size(); i++) {
         cities[i].index = i;
+        cities[i].name = "G" + IntToStr(i + 1);
         ListView1->Items->Item[i]->Caption = "G" + IntToStr(i + 1);
     }
 
     // Очистка путей и PaintBox
-    validRoutes.clear();
+    routes.clear();
     PaintBox1->Invalidate();
 	StatusBar1->SimpleText = "Городов: " + IntToStr((int)cities.size());
 }

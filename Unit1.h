@@ -19,6 +19,7 @@
 //---------------------------------------------------------------------------
 // Структура города
 struct City {
+	int index;   // индекс в массиве
 	double x;    // координата X
 	double y;    // координата Y
     String name; // название, например "G1"
@@ -42,7 +43,7 @@ __published:	// IDE-managed Components
 	TEdit *EditX;
 	TEdit *EditY;
 	TButton *ButtonAdd;
-	TButton *Button2;
+	TButton *ButtonDelete;
 	TLabel *TitleListCity;
 	TPanel *Panel2;
 	TListView *ListView1;
@@ -53,6 +54,8 @@ __published:	// IDE-managed Components
 	TLabel *Label4;
 	TStringGrid *StringGrid1;
 	void __fastcall Button1Click(TObject *Sender);
+	void __fastcall ButtonAddClick(TObject *Sender);
+	void __fastcall ButtonDeleteClick(TObject *Sender);
 private:	// User declarations
 	void FindAndShowRoutes();
     void ShowRoutesInGrid(const std::vector<Route> &routes);

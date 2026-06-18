@@ -92,14 +92,16 @@ object Form1: TForm1
       Height = 25
       Caption = #1044#1086#1073#1072#1074#1080#1090#1100
       TabOrder = 2
+      OnClick = ButtonAddClick
     end
-    object Button2: TButton
+    object ButtonDelete: TButton
       Left = 8
       Top = 101
       Width = 169
       Height = 25
       Caption = #1059#1076#1072#1083#1080#1090#1100
       TabOrder = 3
+      OnClick = ButtonDeleteClick
     end
   end
   object Panel2: TPanel
@@ -138,6 +140,7 @@ object Form1: TForm1
       ReadOnly = True
       RowSelect = True
       TabOrder = 0
+      ViewStyle = vsReport
     end
     object Button1: TButton
       Left = 8
