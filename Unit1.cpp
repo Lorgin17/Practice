@@ -353,11 +353,34 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 	// --- Города ---
     int r = 5;
     for (int k = 0; k < (int)cities.size(); k++) {
-        const City &c = cities[k];
-        int sx = toSX(c.x);
+		const City &c = cities[k];
+
+
+//		if (!ListView1->Items->Item[k]->Checked) continue;           НЕ ПОКАЗЫВАТЬ ГОРОДА ВООБЩЕ
+
+
+		// Проверяем checkbox в ListView
+		bool isChecked = ListView1->Items->Item[k]->Checked;
+
+		int sx = toSX(c.x);
         int sy = toSY(c.y);
 
-        bool isActive = (k == activeIdxA || k == activeIdxB);
+		bool isActive = (k == activeIdxA || k == activeIdxB);
+
+
+			if (!isChecked) {
+		// Невыбранный город — серый и маленький
+		cv->Pen->Color   = clGray;
+		cv->Pen->Width   = 1;
+		cv->Brush->Color = clSilver;
+		cv->Ellipse(sx - r + 2, sy - r + 2, sx + r - 2, sy + r - 2);
+		cv->Brush->Style = bsClear;
+		cv->Font->Color  = clGray;
+		cv->TextOut(sx + r + 2, sy - r - 2, c.name);
+		cv->Brush->Style = bsSolid;
+		continue;
+	}
+
 
         if (isActive) {
             cv->Pen->Color   = clRed;
