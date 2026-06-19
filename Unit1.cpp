@@ -20,6 +20,7 @@ TForm1 *Form1;
 float Side(const City &A, const City &B, const City &P){
 return (B.x - A.x) * (P.y -A.y) - (B.y - A.y) * (P.x - A.x);
 }
+//---------------------------------------------------------------------------
 //Функция 2. расстояние между двумя городами
 float Distance(const City &A, const City &B)
 {
@@ -27,6 +28,7 @@ float Distance(const City &A, const City &B)
 	float dy = B.y - A.y;
     return sqrt(dx*dx + dy*dy);
 }
+//---------------------------------------------------------------------------
 //Функция 3. Возвращает true, если прямая через города A и B
 // делит остальные города ровно пополам
 // (коллинеарные не считаются)
@@ -37,13 +39,13 @@ bool ValidCity(const std::vector<City> &cities, int A, int B)
 	for (int k = 0; k < (int)cities.size(); k++) {
 		if (k == A || k == B) continue;
 		float c = Side(cities[A], cities[B], cities[k]); //1
-		if      (c > 0) left++;
+		if (c > 0) left++;
 		else if (c < 0) right++;
 		// c == 0 — на прямой, не считаем
 	}
-    return (left == need && right == need);
+	return (left == need && right == need);
 }
-
+//---------------------------------------------------------------------------
 
 //Функция 4. Перебирает все пары городов и возвращает только подходящие
 std::vector<Route> CollectRoutes(const std::vector<City> &cities)
@@ -320,10 +322,6 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 	auto toSY = [&](double y) -> int {
 		return H - margin - (int)((y - minY) / rangeY * (H - 2 * margin));
     };
-
-    // --- Пунктирная линия выбранного маршрута (рисуем первой, чтобы города были поверх) ---
-    bool hasSelected = (selectedRoute >= 0 && selectedRoute < (int)routes.size()
-                         && selectedRoute < (int)lastCheckedCities.size() * 0 + (int)routes.size());
 
     int activeIdxA = -1, activeIdxB = -1; // индексы в cities (по имени)
 	if (selectedRoute >= 0 && selectedRoute < (int)routes.size()) {
