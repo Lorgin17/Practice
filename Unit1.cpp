@@ -302,19 +302,23 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 
     if (cities.empty()) return;
 
-    // Границы координат всех городов (не только отмеченных)
-    double minX = cities[0].x, maxX = cities[0].x;
-    double minY = cities[0].y, maxY = cities[0].y;
-    for (auto &c : cities) {
+
+    // Границы координат только отмеченных городов
+	std::vector<City> checked = GetCheckedCities();
+	if (checked.empty()) return;
+
+	float minX = checked[0].x, maxX = checked[0].x;
+	float minY = checked[0].y, maxY = checked[0].y;
+	for (auto &c : checked) {
         if (c.x < minX) minX = c.x;
-        if (c.x > maxX) maxX = c.x;
-        if (c.y < minY) minY = c.y;
-        if (c.y > maxY) maxY = c.y;
+		if (c.x > maxX) maxX = c.x;
+		if (c.y < minY) minY = c.y;
+		if (c.y > maxY) maxY = c.y;
     }
 
-    int margin = 25;
+	int margin = 25;
     double rangeX = (maxX - minX) > 0 ? (maxX - minX) : 1.0;
-    double rangeY = (maxY - minY) > 0 ? (maxY - minY) : 1.0;
+	double rangeY = (maxY - minY) > 0 ? (maxY - minY) : 1.0;
 
 	auto toSX = [&](double x) -> int {
 		return margin + (int)((x - minX) / rangeX * (W - 2 * margin));
@@ -349,57 +353,51 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 		}
 	}
 	// --- Города ---
-    int r = 5;
-    for (int k = 0; k < (int)cities.size(); k++) {
-		const City &c = cities[k];
+int r = 5;
+for (int k = 0; k < (int)cities.size(); k++) {
+    const City &c = cities[k];
+    bool isChecked = ListView1->Items->Item[k]->Checked;
+    int sx = toSX(c.x);
+    int sy = toSY(c.y);
+    bool isActive = (k == activeIdxA || k == activeIdxB);
 
-
-//		if (!ListView1->Items->Item[k]->Checked) continue;           НЕ ПОКАЗЫВАТЬ ГОРОДА ВООБЩЕ
-
-
-		// Проверяем checkbox в ListView
-		bool isChecked = ListView1->Items->Item[k]->Checked;
-
-		int sx = toSX(c.x);
-        int sy = toSY(c.y);
-
-		bool isActive = (k == activeIdxA || k == activeIdxB);
-
-
-			if (!isChecked) {
-		// Невыбранный город — серый и маленький
-		cv->Pen->Color   = clGray;
-		cv->Pen->Width   = 1;
-		cv->Brush->Color = clSilver;
-		cv->Ellipse(sx - r + 2, sy - r + 2, sx + r - 2, sy + r - 2);
-		cv->Brush->Style = bsClear;
-		cv->Font->Color  = clGray;
-		cv->TextOut(sx + r + 2, sy - r - 2, c.name);
-		cv->Brush->Style = bsSolid;
-		continue;
-	}
-
-
-        if (isActive) {
-            cv->Pen->Color   = clRed;
-            cv->Pen->Width   = 3;
-            cv->Brush->Color = clYellow;
-        } else {
-            cv->Pen->Color   = clNavy;
+    if (!isChecked) {
+        // Рисуем серым только если попадает в видимую область
+        if (sx >= margin && sx <= W - margin &&
+            sy >= margin && sy <= H - margin) {
+            cv->Pen->Color   = clGray;
             cv->Pen->Width   = 1;
-            cv->Brush->Color = clBlue;
+            cv->Brush->Color = clSilver;
+            cv->Ellipse(sx - 3, sy - 3, sx + 3, sy + 3);
+            cv->Brush->Style = bsClear;
+            cv->Font->Color  = clGray;
+            cv->TextOut(sx + 5, sy - 5, c.name);
+            cv->Brush->Style = bsSolid;
         }
+        continue;
+    }
 
-        cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
-        cv->Pen->Width = 1;
-
-        cv->Brush->Style = bsClear;
-        cv->Font->Color  = clBlack;
-        cv->Font->Style  = isActive ? TFontStyles() << fsBold : TFontStyles();
-        cv->TextOut(sx + r + 2, sy - r - 2, c.name);
-        cv->Font->Style  = TFontStyles();
-        cv->Brush->Style = bsSolid;
+    if (isActive) {
+        cv->Pen->Color   = clRed;
+        cv->Pen->Width   = 3;
+        cv->Brush->Color = clYellow;
 	}
+	else {
+		cv->Pen->Color   = clNavy;
+        cv->Pen->Width   = 1;
+        cv->Brush->Color = clBlue;
+    }
+
+    cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
+    cv->Pen->Width = 1;
+
+    cv->Brush->Style = bsClear;
+    cv->Font->Color  = clBlack;
+    cv->Font->Style  = isActive ? TFontStyles() << fsBold : TFontStyles();
+    cv->TextOut(sx + r + 2, sy - r - 2, c.name);
+    cv->Font->Style  = TFontStyles();
+    cv->Brush->Style = bsSolid;
+}
 }
 //---------------------------------------------------------------------------
 // Отрисовка маршрутов
