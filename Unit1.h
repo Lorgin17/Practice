@@ -28,12 +28,6 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Grids.hpp>
-
-
-
-
-
-
 //---------------------------------------------------------------------------
 // —труктура города
 struct City {
@@ -53,8 +47,6 @@ struct Route {
 class TForm1 : public TForm
 {
 __published:	// IDE-managed Components
-
-
 	TPanel *Panel1;
 	TPaintBox *PaintBox1;
 	TLabel *TitleAddCity;
@@ -69,7 +61,6 @@ __published:	// IDE-managed Components
 	TListView *ListView1;
 	TStatusBar *StatusBar1;
 	TButton *Button1;
-	TButton *Button3;
 	TLabel *Label3;
 	TLabel *Label4;
 	TStringGrid *StringGrid1;
@@ -79,14 +70,16 @@ __published:	// IDE-managed Components
 	void __fastcall EditXKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall EditYKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
-
+	void __fastcall PaintBox1Paint(TObject *Sender);
+	void __fastcall StringGrid1Click(TObject *Sender);
 
 private:	// User declarations
 	void FindAndShowRoutes();
 	void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
-
+	int selectedRoute = -1;          // индекс выбранного маршрута дл€ подсветки
+	std::vector<City> lastCheckedCities; // запоминаем те же города что были при расчЄте
 	std::vector<City> GetCheckedCities();
 	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов

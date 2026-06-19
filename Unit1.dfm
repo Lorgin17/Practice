@@ -19,6 +19,7 @@ object Form1: TForm1
     Top = 29
     Width = 400
     Height = 300
+    OnPaint = PaintBox1Paint
   end
   object TitleAddCity: TLabel
     Left = 8
@@ -148,19 +149,11 @@ object Form1: TForm1
     object Button1: TButton
       Left = 8
       Top = 295
-      Width = 75
+      Width = 169
       Height = 25
       Caption = #1056#1072#1089#1089#1095#1080#1090#1072#1090#1100
       TabOrder = 1
       OnClick = Button1Click
-    end
-    object Button3: TButton
-      Left = 102
-      Top = 295
-      Width = 75
-      Height = 25
-      Caption = #1054#1095#1080#1089#1090#1080#1090#1100
-      TabOrder = 2
     end
   end
   object StatusBar1: TStatusBar
@@ -177,5 +170,12 @@ object Form1: TForm1
     Width = 402
     Height = 169
     TabOrder = 3
+    OnClick = StringGrid1Click
+    ColWidths = (
+      64
+      64
+      64
+      64
+      64)
   end
 end
