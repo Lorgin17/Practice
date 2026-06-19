@@ -32,16 +32,18 @@ float Distance(const City &A, const City &B)
 // (коллинеарные не считаются)
 bool ValidCity(const std::vector<City> &cities, int A, int B)
 {
-	int need = ((int)cities.size() - 2) / 2;
 	int left = 0, right = 0;
 	for (int k = 0; k < (int)cities.size(); k++) {
 		if (k == A || k == B) continue;
 		float c = Side(cities[A], cities[B], cities[k]); //1
 		if      (c > 0) left++;
-		else if (c < 0) right++;
-		// c == 0 — на прямой, не считаем
+        else if (c < 0) right++;
+		// c == 0 — коллинеарный, не считаем вообще
 	}
-    return (left == need && right == need);
+    int nonCollinear = left + right;
+    if (nonCollinear % 2 != 0) return false;
+	int need = nonCollinear / 2;
+	return (left == need && right == need);
 }
 
 
