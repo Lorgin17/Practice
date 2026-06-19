@@ -161,7 +161,7 @@ __fastcall TForm1::TForm1(TComponent* Owner)
     StringGrid1->Cells[0][0] = "№";
     StringGrid1->Cells[1][0] = "Маршрут";
 	StringGrid1->Cells[2][0] = "Длина";
-	StringGrid1->Width = 490;
+	StringGrid1->Width = 486;
 	StringGrid1->ColWidths[0] = 30;
 	StringGrid1->ColWidths[1] = 250;
 	StringGrid1->ColWidths[2] = 200;
