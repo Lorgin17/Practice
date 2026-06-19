@@ -127,6 +127,14 @@ void TForm1::UpdateStatus(const std::vector<Route> &routes)
 //Функция. Итоговая FindAndShowRoutes — просто склейка
 void TForm1::FindAndShowRoutes()
 {
+     // Очистить предыдущие результаты
+    routes.clear();
+    StringGrid1->RowCount = 2;
+    StringGrid1->Cells[0][1] = "";
+    StringGrid1->Cells[1][1] = "";
+    StringGrid1->Cells[2][1] = "";
+    selectedRoute = -1;
+    PaintBox1->Invalidate();
     std::vector<City> checkedCities = GetCheckedCities();
     int n = (int)checkedCities.size();
 
