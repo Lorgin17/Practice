@@ -169,6 +169,7 @@ object Form1: TForm1
     Top = 356
     Width = 402
     Height = 169
+    Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
     TabOrder = 3
     OnClick = StringGrid1Click
     ColWidths = (
