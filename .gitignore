@@ -12,3 +12,4 @@ __history/
 *.ils
 *.map
 *.local 
+__recovery/
