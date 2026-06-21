@@ -170,13 +170,26 @@ object Form1: TForm1
     Width = 402
     Height = 169
     Options = [goFixedVertLine, goFixedHorzLine, goVertLine, goHorzLine, goRangeSelect, goRowSelect, goFixedRowDefAlign]
+    PopupMenu = PopupMenu1
     TabOrder = 3
     OnClick = StringGrid1Click
+    OnMouseUp = StringGrid1MouseUp
     ColWidths = (
       64
       64
       64
       64
       64)
+  end
+  object PopupMenu1: TPopupMenu
+    Left = 608
+    object N1: TMenuItem
+      Caption = #1051#1077#1074#1086#1077' '#1087#1086#1076#1084#1085#1086#1078#1077#1089#1090#1074#1086
+      OnClick = MenuLeftClick
+    end
+    object N2: TMenuItem
+      Caption = #1055#1088#1072#1074#1086#1077' '#1087#1086#1076#1084#1085#1086#1078#1077#1089#1090#1074#1086
+      OnClick = MenuRightClick
+    end
   end
 end

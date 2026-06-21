@@ -5,6 +5,7 @@
 #pragma hdrstop
 
 #include "Unit1.h"
+#include "Unit2.h"
 //---------------------------------------------------------------------------
 #pragma package(smart_init)
 #pragma resource "*.dfm"
@@ -20,7 +21,6 @@ TForm1 *Form1;
 float Side(const City &A, const City &B, const City &P){
 return (B.x - A.x) * (P.y -A.y) - (B.y - A.y) * (P.x - A.x);
 }
-//---------------------------------------------------------------------------
 //Функция 2. расстояние между двумя городами
 float Distance(const City &A, const City &B)
 {
@@ -28,7 +28,6 @@ float Distance(const City &A, const City &B)
 	float dy = B.y - A.y;
     return sqrt(dx*dx + dy*dy);
 }
-//---------------------------------------------------------------------------
 //Функция 3. Возвращает true, если прямая через города A и B
 // делит остальные города ровно пополам
 // (коллинеарные не считаются)
@@ -39,13 +38,13 @@ bool ValidCity(const std::vector<City> &cities, int A, int B)
 	for (int k = 0; k < (int)cities.size(); k++) {
 		if (k == A || k == B) continue;
 		float c = Side(cities[A], cities[B], cities[k]); //1
-		if (c > 0) left++;
+		if      (c > 0) left++;
 		else if (c < 0) right++;
 		// c == 0 — на прямой, не считаем
 	}
-	return (left == need && right == need);
+    return (left == need && right == need);
 }
-//---------------------------------------------------------------------------
+
 
 //Функция 4. Перебирает все пары городов и возвращает только подходящие
 std::vector<Route> CollectRoutes(const std::vector<City> &cities)
@@ -327,6 +326,7 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 		return H - margin - (int)((y - minY) / rangeY * (H - 2 * margin));
     };
 
+
     int activeIdxA = -1, activeIdxB = -1; // индексы в cities (по имени)
 	if (selectedRoute >= 0 && selectedRoute < (int)routes.size()) {
         const Route &rt = routes[selectedRoute];
@@ -410,4 +410,58 @@ for (int k = 0; k < (int)cities.size(); k++) {
     }
 }
 //---------------------------------------------------------------------------
+void __fastcall TForm1::StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
+    TShiftState Shift, int X, int Y)
+{
+    if (Button == mbRight) {
+        int col, row;
+        StringGrid1->MouseToCell(X, Y, col, row);
+        if (row > 0 && row - 1 < (int)routes.size()) {
+            popupRowMain = row - 1;
+            selectedRoute = popupRowMain;
+            PaintBox1->Invalidate();
+        } else {
+            popupRowMain = -1;
+        }
+    }
+}
 
+void __fastcall TForm1::MenuLeftClick(TObject *Sender)
+{
+    if (popupRowMain < 0) return;
+    const Route &rt = routes[popupRowMain];
+    const City &A = lastCheckedCities[rt.i];
+    const City &B = lastCheckedCities[rt.j];
+
+    std::vector<City> subset;
+    for (auto &c : lastCheckedCities) {
+        if (c.name == A.name || c.name == B.name) continue;
+        float s = Side(A, B, c); // используем существующую функцию Side из Unit1
+        if (s > 0) subset.push_back(c);
+    }
+    if (subset.empty()) { ShowMessage("Нет городов слева"); return; }
+
+    TForm2 *child = new TForm2(Application, subset);
+    child->Caption = "Левое подмножество";
+    child->Show();
+}
+
+void __fastcall TForm1::MenuRightClick(TObject *Sender)
+{
+    if (popupRowMain < 0) return;
+    const Route &rt = routes[popupRowMain];
+    const City &A = lastCheckedCities[rt.i];
+    const City &B = lastCheckedCities[rt.j];
+
+    std::vector<City> subset;
+    for (auto &c : lastCheckedCities) {
+        if (c.name == A.name || c.name == B.name) continue;
+        float s = Side(A, B, c);
+        if (s < 0) subset.push_back(c);
+    }
+    if (subset.empty()) { ShowMessage("Нет городов справа"); return; }
+
+    TForm2 *child = new TForm2(Application, subset);
+    child->Caption = "Правое подмножество";
+    child->Show();
+}

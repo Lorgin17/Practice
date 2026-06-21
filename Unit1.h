@@ -28,6 +28,8 @@
 #include <Vcl.ExtCtrls.hpp>
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Grids.hpp>
+#include <Vcl.Menus.hpp>
+#include <vector>
 //---------------------------------------------------------------------------
 // Структура города
 struct City {
@@ -64,6 +66,14 @@ __published:	// IDE-managed Components
 	TLabel *Label3;
 	TLabel *Label4;
 	TStringGrid *StringGrid1;
+	TPopupMenu *PopupMenu1;
+	TMenuItem *N1;
+	TMenuItem *N2;
+
+	void __fastcall StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
+		TShiftState Shift, int X, int Y);
+	void __fastcall MenuLeftClick(TObject *Sender);
+	void __fastcall MenuRightClick(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
 	void __fastcall ButtonAddClick(TObject *Sender);
 	void __fastcall ButtonDeleteClick(TObject *Sender);
@@ -78,12 +88,13 @@ private:	// User declarations
 	void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
 
-	int selectedRoute = -1;          // индекс выбранного маршрута для подсветки
+	int selectedRoute = -1;          // индекс выбранного маршрута
 	std::vector<City> lastCheckedCities; // запоминаем те же города что были при расчёте
 	std::vector<City> GetCheckedCities();
 	std::vector<Route> validRoutes;
 	std::vector<City> cities;   // список всех городов
-    std::vector<Route> routes;  // список найденных маршрутов
+	std::vector<Route> routes;  // список найденных маршрутов
+    int popupRowMain = -1;
 
 public:		// User declarations
 	__fastcall TForm1(TComponent* Owner);
