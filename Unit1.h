@@ -29,6 +29,7 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.Menus.hpp>
+#include <Vcl.Menus.hpp>
 #include <vector>
 //---------------------------------------------------------------------------
 // Структура города
