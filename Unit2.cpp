@@ -35,15 +35,17 @@ __fastcall TForm2::TForm2(TComponent* Owner, const std::vector<City> &inputCitie
 
     CalculateRoutes();
 }
-
+//---------------------------------------------------------------------------
 // Логика расчётов
 static float Side2(const City &A, const City &B, const City &P) {
 	return (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
 }
+//---------------------------------------------------------------------------
 static float Distance2(const City &A, const City &B) {
 	float dx = B.x - A.x, dy = B.y - A.y;
 	return sqrt(dx*dx + dy*dy);
 }
+//---------------------------------------------------------------------------
 static bool ValidCity2(const std::vector<City> &c, int A, int B) {
 	int need = ((int)c.size() - 2) / 2;
 	int left = 0, right = 0;
@@ -55,11 +57,11 @@ static bool ValidCity2(const std::vector<City> &c, int A, int B) {
 	}
 	return (left == need && right == need);
 }
-
+//---------------------------------------------------------------------------
 void TForm2::CalculateRoutes()
 {
-    routes.clear();
-    int n = (int)cities.size();
+	routes.clear();
+	int n = (int)cities.size();
 
     if (n < 2 || n % 2 != 0) {
         StatusBar1->SimpleText = "В подмножестве должно быть чётное число городов (мин. 2)";
@@ -88,7 +90,7 @@ void TForm2::CalculateRoutes()
     ShowRoutesInGrid();
     StatusBar1->SimpleText = "Маршрутов в подмножестве: " + IntToStr((int)routes.size());
 }
-
+//---------------------------------------------------------------------------
 void TForm2::ShowRoutesInGrid()
 {
     StringGrid1->RowCount = (int)routes.size() + 1;
@@ -98,8 +100,8 @@ void TForm2::ShowRoutesInGrid()
         StringGrid1->Cells[2][r+1] = FloatToStrF(routes[r].length, ffFixed, 6, 2);
     }
 }
-
-// Клик левой кнопкой — выбрать маршрут для подсветки
+//---------------------------------------------------------------------------
+// Клик левой кнопкой
 void __fastcall TForm2::StringGrid1Click(TObject *Sender)
 {
     int row = StringGrid1->Row;
@@ -108,7 +110,7 @@ void __fastcall TForm2::StringGrid1Click(TObject *Sender)
         PaintBox1->Invalidate();
     }
 }
-
+//---------------------------------------------------------------------------
 // Клик правой кнопкой — запомнить строку под курсором перед показом меню
 void __fastcall TForm2::StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
 	TShiftState Shift, int X, int Y)
@@ -125,21 +127,21 @@ void __fastcall TForm2::StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
         }
     }
 }
-
+//---------------------------------------------------------------------------
 void __fastcall TForm2::MenuLeftClick(TObject *Sender)
 {
     OpenSubset(true);
 }
-
+//---------------------------------------------------------------------------
 void __fastcall TForm2::MenuRightClick(TObject *Sender)
 {
     OpenSubset(false);
 }
-
+//---------------------------------------------------------------------------
 // Открыть новое окно TForm2 с подмножеством слева/справа от дороги
 void TForm2::OpenSubset(bool leftSide)
 {
-        ShowMessage("popupRow = " + IntToStr(popupRow) +
+		ShowMessage("popupRow = " + IntToStr(popupRow) +
                 ", routes.size = " + IntToStr((int)routes.size()));
 	if (popupRow < 0 || popupRow >= (int)routes.size()) return;
 
@@ -165,7 +167,7 @@ void TForm2::OpenSubset(bool leftSide)
 	child->Show();
 	child->BringToFront();
 }
-
+//---------------------------------------------------------------------------
 // Отрисовка
 void __fastcall TForm2::PaintBox1Paint(TObject *Sender)
 {
