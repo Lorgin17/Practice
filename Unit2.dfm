@@ -39,9 +39,6 @@ object Form2: TForm2
     Height = 19
     Panels = <>
     SimplePanel = True
-    ExplicitLeft = -2
-    ExplicitTop = 422
-    ExplicitWidth = 626
   end
   object StringGrid1: TStringGrid
     Left = 414
@@ -52,6 +49,7 @@ object Form2: TForm2
     PopupMenu = PopupMenu1
     TabOrder = 1
     OnClick = StringGrid1Click
+    OnMouseUp = StringGrid1MouseUp
     ColWidths = (
       64
       64
