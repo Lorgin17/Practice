@@ -46,14 +46,17 @@ static float Distance2(const City &A, const City &B) {
     return sqrt(dx*dx + dy*dy);
 }
 static bool ValidCity2(const std::vector<City> &c, int A, int B) {
-    int need = ((int)c.size() - 2) / 2;
     int left = 0, right = 0;
     for (int k = 0; k < (int)c.size(); k++) {
         if (k == A || k == B) continue;
         float s = Side2(c[A], c[B], c[k]);
         if (s > 0) left++;
         else if (s < 0) right++;
+        // s == 0 Ч коллинеарный, не считаем
     }
+    int nonCollinear = left + right;
+    if (nonCollinear % 2 != 0) return false;
+    int need = nonCollinear / 2;
     return (left == need && right == need);
 }
 
@@ -161,7 +164,7 @@ void TForm2::OpenSubset(bool leftSide)
 
     TForm2 *child = new TForm2(Application, subset);
     child->Caption = leftSide ? "Ћевое подмножество" : "ѕравое подмножество";
-    child->Show(); // немодальное окно поверх Ч можно открывать сколько угодно
+	child->Show(); // немодальное окно поверх Ч можно открывать сколько угодно
 }
 
 // ќтрисовка Ч аналогична Unit1, но без серых/чекбоксов (все города активны)
@@ -201,18 +204,42 @@ void __fastcall TForm2::PaintBox1Paint(TObject *Sender)
         activeA = routes[selectedRoute].i;
         activeB = routes[selectedRoute].j;
 
-        int x1 = toSX(cities[activeA].x), y1 = toSY(cities[activeA].y);
-        int x2 = toSX(cities[activeB].x), y2 = toSY(cities[activeB].y);
+        double x1 = toSX(cities[activeA].x), y1 = toSY(cities[activeA].y);
+        double x2 = toSX(cities[activeB].x), y2 = toSY(cities[activeB].y);
 
-        cv->Pen->Color = clRed;
-        cv->Pen->Width = 2;
-        cv->Pen->Style = psDash;
-        cv->MoveTo(x1, y1);
-        cv->LineTo(x2, y2);
-        cv->Pen->Style = psSolid;
-        cv->Pen->Width = 1;
+        double dx = x2 - x1;
+        double dy = y2 - y1;
+
+        std::vector<double> ts;
+        if (abs(dx) > 0.001) {
+            ts.push_back((0 - x1) / dx);
+            ts.push_back((W - x1) / dx);
+        }
+        if (abs(dy) > 0.001) {
+            ts.push_back((0 - y1) / dy);
+            ts.push_back((H - y1) / dy);
+        }
+
+        std::vector<std::pair<double,double>> pts;
+        for (double t : ts) {
+            double px = x1 + t * dx;
+            double py = y1 + t * dy;
+            if (px >= -1 && px <= W+1 && py >= -1 && py <= H+1)
+                pts.push_back({px, py});
+        }
+
+        if (pts.size() >= 2) {
+            cv->Pen->Color = clRed;
+            cv->Pen->Width = 2;
+            cv->Pen->Style = psDash;
+            cv->MoveTo((int)pts[0].first, (int)pts[0].second);
+            cv->LineTo((int)pts[1].first, (int)pts[1].second);
+            cv->Pen->Style = psSolid;
+            cv->Pen->Width = 1;
+        }
     }
 
+    // --- √орода --- (снаружи блока if)
     int r = 5;
     for (int k = 0; k < (int)cities.size(); k++) {
         const City &c = cities[k];

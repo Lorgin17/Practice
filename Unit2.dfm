@@ -49,6 +49,7 @@ object Form2: TForm2
     PopupMenu = PopupMenu1
     TabOrder = 1
     OnClick = StringGrid1Click
+    OnMouseUp = StringGrid1MouseUp
     ColWidths = (
       64
       64

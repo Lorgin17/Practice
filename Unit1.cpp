@@ -331,31 +331,57 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
     };
 
 
-    int activeIdxA = -1, activeIdxB = -1; // индексы в cities (по имени)
+	int activeIdxA = -1, activeIdxB = -1; // индексы в cities (по имени)
 	if (selectedRoute >= 0 && selectedRoute < (int)routes.size()) {
-        const Route &rt = routes[selectedRoute];
-        const City &cA = lastCheckedCities[rt.i];
-        const City &cB = lastCheckedCities[rt.j];
+		const Route &rt = routes[selectedRoute];
+		const City &cA = lastCheckedCities[rt.i];
+		const City &cB = lastCheckedCities[rt.j];
 
-        // Найти эти же города в общем списке cities (по имени, т.к. индексы разные)
-        for (int k = 0; k < (int)cities.size(); k++) {
-            if (cities[k].name == cA.name) activeIdxA = k;
-            if (cities[k].name == cB.name) activeIdxB = k;
-        }
+		// Найти эти же города в общем списке cities (по имени, т.к. индексы разные)
+		for (int k = 0; k < (int)cities.size(); k++) {
+			if (cities[k].name == cA.name) activeIdxA = k;
+			if (cities[k].name == cB.name) activeIdxB = k;
+		}
 
-        if (activeIdxA >= 0 && activeIdxB >= 0) {
-            int x1 = toSX(cities[activeIdxA].x), y1 = toSY(cities[activeIdxA].y);
-            int x2 = toSX(cities[activeIdxB].x), y2 = toSY(cities[activeIdxB].y);
+		if (activeIdxA >= 0 && activeIdxB >= 0) {
+		double x1 = toSX(cities[activeIdxA].x), y1 = toSY(cities[activeIdxA].y);
+		double x2 = toSX(cities[activeIdxB].x), y2 = toSY(cities[activeIdxB].y);
 
-            cv->Pen->Color = clRed;
-            cv->Pen->Width = 2;
-            cv->Pen->Style = psDash;
-            cv->MoveTo(x1, y1);
-            cv->LineTo(x2, y2);
-            cv->Pen->Style = psSolid;
-            cv->Pen->Width = 1;
+		double dx = x2 - x1;
+		double dy = y2 - y1;
+
+		// Собираем все пересечения с 4 границами
+		std::vector<double> ts;
+
+		if (abs(dx) > 0.001) {
+			ts.push_back((0 - x1) / dx);   // левая граница x=0
+			ts.push_back((W - x1) / dx);   // правая граница x=W
+		}
+		if (abs(dy) > 0.001) {
+			ts.push_back((0 - y1) / dy);   // верхняя граница y=0
+			ts.push_back((H - y1) / dy);   // нижняя граница y=H
+		}
+
+		// Оставляем только точки внутри PaintBox
+		std::vector<std::pair<double,double>> pts;
+		for (double t : ts) {
+			double px = x1 + t * dx;
+			double py = y1 + t * dy;
+			if (px >= -1 && px <= W+1 && py >= -1 && py <= H+1)
+				pts.push_back({px, py});
+		}
+
+		if (pts.size() >= 2) {
+			cv->Pen->Color = clRed;
+			cv->Pen->Width = 2;
+			cv->Pen->Style = psDash;
+			cv->MoveTo((int)pts[0].first,  (int)pts[0].second);
+			cv->LineTo((int)pts[1].first,  (int)pts[1].second);
+			cv->Pen->Style = psSolid;
+			cv->Pen->Width = 1;
 		}
 	}
+}
 	// --- Города ---
 int r = 5;
 for (int k = 0; k < (int)cities.size(); k++) {
@@ -392,7 +418,7 @@ for (int k = 0; k < (int)cities.size(); k++) {
         cv->Brush->Color = clBlue;
     }
 
-    cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
+	cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
     cv->Pen->Width = 1;
 
     cv->Brush->Style = bsClear;
@@ -400,7 +426,7 @@ for (int k = 0; k < (int)cities.size(); k++) {
     cv->Font->Style  = isActive ? TFontStyles() << fsBold : TFontStyles();
     cv->TextOut(sx + r + 2, sy - r - 2, c.name);
     cv->Font->Style  = TFontStyles();
-    cv->Brush->Style = bsSolid;
+	cv->Brush->Style = bsSolid;
 }
 }
 //---------------------------------------------------------------------------
