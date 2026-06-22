@@ -181,6 +181,15 @@ object Form1: TForm1
       64
       64)
   end
+  object Button2: TButton
+    Left = 119
+    Top = 34
+    Width = 66
+    Height = 52
+    Caption = #1054#1090#1082#1088#1099#1090#1100
+    TabOrder = 4
+    OnClick = Button2Click
+  end
   object PopupMenu1: TPopupMenu
     Left = 608
     object N1: TMenuItem
@@ -191,5 +200,8 @@ object Form1: TForm1
       Caption = #1055#1088#1072#1074#1086#1077' '#1087#1086#1076#1084#1085#1086#1078#1077#1089#1090#1074#1086
       OnClick = MenuRightClick
     end
+  end
+  object OpenDialog1: TOpenDialog
+    Left = 576
   end
 end

@@ -29,6 +29,8 @@
 #include <Vcl.ComCtrls.hpp>
 #include <Vcl.Grids.hpp>
 #include <Vcl.Menus.hpp>
+#include <Vcl.Menus.hpp>
+#include <Vcl.Dialogs.hpp>
 #include <vector>
 //---------------------------------------------------------------------------
 // Структура города
@@ -69,6 +71,8 @@ __published:	// IDE-managed Components
 	TPopupMenu *PopupMenu1;
 	TMenuItem *N1;
 	TMenuItem *N2;
+	TButton *Button2;
+	TOpenDialog *OpenDialog1;
 
 	void __fastcall StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
 		TShiftState Shift, int X, int Y);
@@ -82,11 +86,14 @@ __published:	// IDE-managed Components
 	void __fastcall ButtonAddKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall PaintBox1Paint(TObject *Sender);
 	void __fastcall StringGrid1Click(TObject *Sender);
+	void __fastcall Button2Click(TObject *Sender);
+	bool __fastcall AddCityFromCoords(float lat, float lng);
 
 private:	// User declarations
 	void FindAndShowRoutes();
 	void ShowRoutesInGrid(const std::vector<City> &checkedCities, const std::vector<Route> &routes);
 	void UpdateStatus(const std::vector<Route> &routes);
+
 
 	int selectedRoute = -1;          // индекс выбранного маршрута
 	std::vector<City> lastCheckedCities; // запоминаем те же города что были при расчёте
