@@ -383,51 +383,51 @@ void __fastcall TForm1::PaintBox1Paint(TObject *Sender)
 	}
 }
 	// --- Города ---
-int r = 5;
-for (int k = 0; k < (int)cities.size(); k++) {
-    const City &c = cities[k];
-    bool isChecked = ListView1->Items->Item[k]->Checked;
-    int sx = toSX(c.x);
-    int sy = toSY(c.y);
-    bool isActive = (k == activeIdxA || k == activeIdxB);
+	int r = 5;
+	for (int k = 0; k < (int)cities.size(); k++) {
+		const City &c = cities[k];
+		bool isChecked = ListView1->Items->Item[k]->Checked;
+		int sx = toSX(c.x);
+		int sy = toSY(c.y);
+		bool isActive = (k == activeIdxA || k == activeIdxB);
 
-    if (!isChecked) {
-        // Рисуем серым только если попадает в видимую область
-        if (sx >= margin && sx <= W - margin &&
-            sy >= margin && sy <= H - margin) {
-            cv->Pen->Color   = clGray;
-            cv->Pen->Width   = 1;
-            cv->Brush->Color = clSilver;
-            cv->Ellipse(sx - 3, sy - 3, sx + 3, sy + 3);
-            cv->Brush->Style = bsClear;
-            cv->Font->Color  = clGray;
-            cv->TextOut(sx + 5, sy - 5, c.name);
-            cv->Brush->Style = bsSolid;
-        }
-        continue;
-    }
+		if (!isChecked) {
+			// Рисуем серым только если попадает в видимую область
+			if (sx >= margin && sx <= W - margin &&
+				sy >= margin && sy <= H - margin) {
+				cv->Pen->Color   = clGray;
+				cv->Pen->Width   = 1;
+				cv->Brush->Color = clSilver;
+				cv->Ellipse(sx - 3, sy - 3, sx + 3, sy + 3);
+				cv->Brush->Style = bsClear;
+				cv->Font->Color  = clGray;
+				cv->TextOut(sx + 5, sy - 5, c.name);
+				cv->Brush->Style = bsSolid;
+			}
+			continue;
+		}
 
-    if (isActive) {
-        cv->Pen->Color   = clRed;
-        cv->Pen->Width   = 3;
-        cv->Brush->Color = clYellow;
+		if (isActive) {
+			cv->Pen->Color   = clRed;
+			cv->Pen->Width   = 3;
+			cv->Brush->Color = clYellow;
+		}
+		else {
+			cv->Pen->Color   = clNavy;
+			cv->Pen->Width   = 1;
+			cv->Brush->Color = clBlue;
+		}
+
+		cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
+		cv->Pen->Width = 1;
+
+		cv->Brush->Style = bsClear;
+		cv->Font->Color  = clBlack;
+		cv->Font->Style  = isActive ? TFontStyles() << fsBold : TFontStyles();
+		cv->TextOut(sx + r + 2, sy - r - 2, c.name);
+		cv->Font->Style  = TFontStyles();
+		cv->Brush->Style = bsSolid;
 	}
-	else {
-		cv->Pen->Color   = clNavy;
-        cv->Pen->Width   = 1;
-        cv->Brush->Color = clBlue;
-    }
-
-	cv->Ellipse(sx - r, sy - r, sx + r, sy + r);
-    cv->Pen->Width = 1;
-
-    cv->Brush->Style = bsClear;
-    cv->Font->Color  = clBlack;
-    cv->Font->Style  = isActive ? TFontStyles() << fsBold : TFontStyles();
-    cv->TextOut(sx + r + 2, sy - r - 2, c.name);
-    cv->Font->Style  = TFontStyles();
-	cv->Brush->Style = bsSolid;
-}
 }
 //---------------------------------------------------------------------------
 // Отрисовка маршрутов
