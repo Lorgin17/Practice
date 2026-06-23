@@ -10,6 +10,9 @@ object Form1: TForm1
   Font.Height = -12
   Font.Name = 'Segoe UI'
   Font.Style = []
+  KeyPreview = True
+  Menu = MainMenu1
+  OnKeyDown = FormKeyDown
   DesignSize = (
     626
     550)
@@ -203,5 +206,12 @@ object Form1: TForm1
   end
   object OpenDialog1: TOpenDialog
     Left = 576
+  end
+  object MainMenu1: TMainMenu
+    Left = 544
+    object N3: TMenuItem
+    Caption = #1057#1087#1088#1072#1074#1082#1072
+    OnClick = MenuHelpClick
+  end
   end
 end

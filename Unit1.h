@@ -73,9 +73,13 @@ __published:	// IDE-managed Components
 	TMenuItem *N2;
 	TButton *Button2;
 	TOpenDialog *OpenDialog1;
+	TMainMenu *MainMenu1;
+	TMenuItem *N3;
+	void __fastcall MenuHelpClick(TObject *Sender);
 
 	void __fastcall StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
 		TShiftState Shift, int X, int Y);
+	void __fastcall FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift);
 	void __fastcall MenuLeftClick(TObject *Sender);
 	void __fastcall MenuRightClick(TObject *Sender);
 	void __fastcall Button1Click(TObject *Sender);
