@@ -6,6 +6,7 @@
 #include <sstream>      // для istringstream
 #pragma hdrstop
 
+#include "Unit3.h"
 #include "Unit1.h"
 #include "Unit2.h"
 //---------------------------------------------------------------------------
@@ -573,3 +574,18 @@ void __fastcall TForm1::Button2Click(TObject *Sender)
 }
 //---------------------------------------------------------------------------
 
+
+
+void __fastcall TForm1::FormKeyDown(TObject *Sender, WORD &Key, TShiftState Shift)
+{
+    if (Key == VK_F1) {
+        TForm3 *help = new TForm3(Application);
+        help->Show();
+        Key = 0;
+    }
+}
+void __fastcall TForm1::MenuHelpClick(TObject *Sender)
+{
+    TForm3 *help = new TForm3(Application);
+    help->Show();
+}
