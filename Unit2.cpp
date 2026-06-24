@@ -15,7 +15,6 @@ __fastcall TForm2::TForm2(TComponent* Owner, const std::vector<City> &inputCitie
     : TForm(Owner)
 {
 	cities = inputCities;
-    ShowMessage("Городов получено: " + IntToStr((int)cities.size()));
 
     // Перенумеровать локально (но имена городов сохраняем оригинальные!)
     for (int i = 0; i < (int)cities.size(); i++)
@@ -36,15 +35,18 @@ __fastcall TForm2::TForm2(TComponent* Owner, const std::vector<City> &inputCitie
 
     CalculateRoutes();
 }
+//---------------------------------------------------------------------------
+// Логика расчётов
 
-// Та же логика расчёта что и в Unit1 — копируем функции Side/Distance/ValidCity
 static float Side2(const City &A, const City &B, const City &P) {
     return (B.x - A.x) * (P.y - A.y) - (B.y - A.y) * (P.x - A.x);
 }
+//---------------------------------------------------------------------------
 static float Distance2(const City &A, const City &B) {
     float dx = B.x - A.x, dy = B.y - A.y;
     return sqrt(dx*dx + dy*dy);
 }
+//---------------------------------------------------------------------------
 static bool ValidCity2(const std::vector<City> &c, int A, int B) {
     int left = 0, right = 0;
     for (int k = 0; k < (int)c.size(); k++) {
@@ -59,11 +61,11 @@ static bool ValidCity2(const std::vector<City> &c, int A, int B) {
     int need = nonCollinear / 2;
     return (left == need && right == need);
 }
-
+//---------------------------------------------------------------------------
 void TForm2::CalculateRoutes()
 {
-    routes.clear();
-    int n = (int)cities.size();
+	routes.clear();
+	int n = (int)cities.size();
 
     if (n < 2 || n % 2 != 0) {
         StatusBar1->SimpleText = "В подмножестве должно быть чётное число городов (мин. 2)";
@@ -92,7 +94,7 @@ void TForm2::CalculateRoutes()
     ShowRoutesInGrid();
     StatusBar1->SimpleText = "Маршрутов в подмножестве: " + IntToStr((int)routes.size());
 }
-
+//---------------------------------------------------------------------------
 void TForm2::ShowRoutesInGrid()
 {
     StringGrid1->RowCount = (int)routes.size() + 1;
@@ -102,17 +104,18 @@ void TForm2::ShowRoutesInGrid()
         StringGrid1->Cells[2][r+1] = FloatToStrF(routes[r].length, ffFixed, 6, 2);
     }
 }
-
-// Клик левой кнопкой — выбрать маршрут для подсветки
+//---------------------------------------------------------------------------
+// Клик левой кнопкой
 void __fastcall TForm2::StringGrid1Click(TObject *Sender)
 {
     int row = StringGrid1->Row;
     if (row > 0 && row - 1 < (int)routes.size()) {
-        selectedRoute = row - 1;
+		selectedRoute = row - 1;
+
         PaintBox1->Invalidate();
     }
 }
-
+//---------------------------------------------------------------------------
 // Клик правой кнопкой — запомнить строку под курсором перед показом меню
 void __fastcall TForm2::StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
     TShiftState Shift, int X, int Y)
@@ -121,25 +124,25 @@ void __fastcall TForm2::StringGrid1MouseUp(TObject *Sender, TMouseButton Button,
         int col, row;
         StringGrid1->MouseToCell(X, Y, col, row);
         if (row > 0 && row - 1 < (int)routes.size()) {
-            popupRow = row - 1;
-            selectedRoute = popupRow; // заодно подсветим
+			popupRow = row - 1;
+			selectedRoute = popupRow;
             PaintBox1->Invalidate();
         } else {
             popupRow = -1;
         }
     }
 }
-
+//---------------------------------------------------------------------------
 void __fastcall TForm2::MenuLeftClick(TObject *Sender)
 {
     OpenSubset(true);
 }
-
+//---------------------------------------------------------------------------
 void __fastcall TForm2::MenuRightClick(TObject *Sender)
 {
     OpenSubset(false);
 }
-
+//---------------------------------------------------------------------------
 // Открыть новое окно TForm2 с подмножеством слева/справа от дороги
 void TForm2::OpenSubset(bool leftSide)
 {
@@ -166,8 +169,8 @@ void TForm2::OpenSubset(bool leftSide)
     child->Caption = leftSide ? "Левое подмножество" : "Правое подмножество";
 	child->Show(); // немодальное окно поверх — можно открывать сколько угодно
 }
-
-// Отрисовка — аналогична Unit1, но без серых/чекбоксов (все города активны)
+//---------------------------------------------------------------------------
+// Отрисовка
 void __fastcall TForm2::PaintBox1Paint(TObject *Sender)
 {
     TCanvas *cv = PaintBox1->Canvas;
